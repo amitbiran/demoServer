@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Amit's demo server</title>
+
+
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.14/js/jquery.tablesorter.min.js"></script>
+
+
+  <script type="text/javascript">
+
+
+  </script>
+
+
+  <script>
+
+
+
+
+
+
+
+      var male="";
+      var female="";
+      var above30="";
+      var under30="";
+      var txtBox="";
+function ischecked(){
+    if(document.getElementById('MALE').checked==true)
+        male="Male";
+    if(document.getElementById('FEMALE').checked==true)
+        female="female";
+    if(document.getElementById('AGEY').checked==true)
+        under30="age<30";
+    if(document.getElementById('AGEO').checked==true)
+        above30="age>30";
+}
+function getTextBox(){
+    txtBox=document.getElementById('textBox').value;
+    console.log(txtBox);
+}
+
+
+
+
+
+      $(document).ready(function(){
+          $("button").click(function(){
+               male="";
+               female="";
+              above30="";
+               under30="";
+               txtBox="";
+              ischecked();
+              getTextBox();
+              $.post("table",
+                  {
+                      name:txtBox,
+                      male: male,
+                      female: female,
+                      above30: above30,
+                      under30:under30
+
+                  },
+                  function(data,status){
+
+                  var table= document.getElementById("myTable");
+
+                  for(var i=table.rows.length-1;i>0;i--){
+                      table.rows[i].remove();
+                  }
+
+                  for(var i=0;i<data.length;i++){
+                      var rowtoadd='<tr><td>'+data[i].name+'</td><td>'+data[i].gender+'</td><td>'+data[i].age+'</td><td>'+data[i].martial_state+'</td><td>'+data[i].profession+'</td></tr>';
+
+                     var sorter= jQuery(".tablesorter");
+                     sorter.trigger("update");
+                      $('#myTable tbody').append(rowtoadd);
+
+                  }
+                      //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+                      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$('#myTable').tablesorter();
+
+
+
+                  });
+          });
+      });
+  </script>
+
+
+</head>
+
+
+
+
+
+
+
+
+
+
+
+<body>
+<style>
+
+  #FORM1{
+
+    margin: 0px auto;
+    padding-left: 740px;
+
+
+  }
+
+  #FORM2{
+
+    padding-left: 600px;
+    padding-top:  50px;
+
+  }
+
+
+
+
+
+  #SEARCH{
+
+    margin-top: 50px;
+    padding-left: 780px;
+
+  }
+
+  #myTable{
+    padding-left: 740px;
+    margin-top: 50px;
+  }
+
+</style>
+
+<div id="FORM1">
+  <form>
+
+    <input type="text" name="FirstName" value="Name Query Text Box" id="textBox"/>
+
+
+  </form>
+</div>
+
+<div id="FORM2">
+
+  <form>
+
+    <input type="checkbox" name="MALE" value="MALE" id="MALE"/>MALE
+    <input type="checkbox" name="FEMALE" value="FEMALE" id="FEMALE"/>FEMALE
+    <input type="checkbox" name="AGEY" value="AGE" id="AGEY"/>Younger than 30 Y.O.
+    <input type="checkbox" name="AGEO" value="AGE" id="AGEO">Older than 30 Y.O.
+
+  </form>
+
+
+</div>
+
+<div id="FORM3">
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<div id="SEARCH">
+
+
+  <button>SEARCH</button>
+
+</div>
+
+
+
+<form>
+  <table id="myTable" class="tablesorter">
+    <thead>
+    <tr>
+      <th> Name</th>
+      <th>Gender</th>
+      <th>Age</th>
+      <th>Martial State</th>
+      <th>Profession</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+
+</form>
+
+
+</body>
+</html>
